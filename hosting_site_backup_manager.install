@@ -17,7 +17,7 @@ function hosting_site_backup_manager_uninstall() {
 /**
  * Implemention of hook_schema().
  */
-function hosting_backup_gc_schema() {
+function hosting_site_backup_manager_gc_schema() {
   $schema = array();
 
   $schema['hosting_backup_gc_sites'] = array(
@@ -51,7 +51,7 @@ function hosting_backup_gc_schema() {
 function hosting_site_backup_manager_update_6100() {
   $ret = array();
 
-  $schema = hosting_backup_gc_schema();
+  $schema = hosting_site_backup_manager_gc_schema();
 
   db_create_table($ret, 'hosting_backup_gc_sites', $schema['hosting_backup_gc_sites']);
 
