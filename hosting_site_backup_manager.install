@@ -20,7 +20,7 @@ function hosting_site_backup_manager_uninstall() {
 function hosting_site_backup_manager_gc_schema() {
   $schema = array();
 
-  $schema['hosting_site_backup_manager_gc_sites'] = array(
+  $schema['hosting_backup_gc_sites'] = array(
     'description' => t('A cache of the last gc times of all enabled sites.'),
     'fields' => array(
       'site_id' => array(
@@ -53,7 +53,7 @@ function hosting_site_backup_manager_update_6100() {
 
   $schema = hosting_site_backup_manager_gc_schema();
 
-  db_create_table($ret, 'hosting_site_backup_manager_gc_sites', $schema['hosting_site_backup_manager_gc_sites']);
+  db_create_table($ret, 'hosting_backup_gc_sites', $schema['hosting_backup_gc_sites']);
 
   return $ret;
 }

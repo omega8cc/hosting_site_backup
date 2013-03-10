@@ -734,7 +734,7 @@ function hosting_backup_gc_queue($count) {
  */
 function hosting_backup_gc_get_sites($limit = 5) {
   $sites = array();
-  $result = db_query("SELECT n.nid FROM {node} n LEFT JOIN {hosting_site} s ON n.nid = s.nid LEFT JOIN {hosting_site_backup_manager_gc_sites} gc ON n.nid = gc.site_id WHERE n.type='site' and s.status = %d ORDER BY gc.last_gc ASC, n.nid ASC limit %d", HOSTING_SITE_ENABLED, $limit);
+  $result = db_query("SELECT n.nid FROM {node} n LEFT JOIN {hosting_site} s ON n.nid = s.nid LEFT JOIN {hosting_backup_gc_sites} gc ON n.nid = gc.site_id WHERE n.type='site' and s.status = %d ORDER BY gc.last_gc ASC, n.nid ASC limit %d", HOSTING_SITE_ENABLED, $limit);
   while ($nid = db_fetch_object($result)) {
     $sites[$nid->nid] = node_load($nid->nid);
   }
@@ -798,13 +798,13 @@ function hosting_backup_gc_site_touch($site_id, $timestamp = NULL) {
     $timestamp = time();
   }
   $record = array('site_id' => $site_id, 'last_gc' => $timestamp);
-  if (db_result(db_query('SELECT count(*) FROM {hosting_site_backup_manager_gc_sites} WHERE site_id = %d', $record['site_id']))) {
+  if (db_result(db_query('SELECT count(*) FROM {hosting_backup_gc_sites} WHERE site_id = %d', $record['site_id']))) {
     // Update
-    drupal_write_record('hosting_site_backup_manager_gc_sites', $record, 'site_id');
+    drupal_write_record('hosting_backup_gc_sites', $record, 'site_id');
   }
   else {
     // Insert
-    drupal_write_record('hosting_site_backup_manager_gc_sites', $record);
+    drupal_write_record('hosting_backup_gc_sites', $record);
   }
 }
 
